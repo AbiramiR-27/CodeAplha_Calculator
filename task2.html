@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Calculator</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg,#141e30,#243b55);
+}
+
+/* Glass Card */
+.calculator{
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.08);
+    border-radius:20px;
+    padding:25px;
+    width:340px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+/* Display */
+.display{
+    height:70px;
+    width:100%;
+    background: rgba(0,0,0,0.6);
+    border-radius:15px;
+    color:#00ffcc;
+    font-size:32px;
+    text-align:right;
+    padding:15px;
+    margin-bottom:20px;
+    overflow-x:auto;
+}
+
+/* Grid */
+.buttons{
+    display:grid;
+    grid-template-columns: repeat(4,1fr);
+    gap:12px;
+}
+
+/* Buttons */
+button{
+    padding:18px;
+    font-size:18px;
+    border:none;
+    border-radius:15px;
+    cursor:pointer;
+    transition: all 0.2s ease;
+    font-weight:600;
+}
+
+/* Number */
+.number{
+    background: rgba(255,255,255,0.1);
+    color:white;
+}
+
+.number:hover{
+    background: rgba(255,255,255,0.2);
+}
+
+/* Operator */
+.operator{
+    background: #ff9800;
+    color:white;
+}
+
+.operator:hover{
+    background:#ffb74d;
+}
+
+/* Equal */
+.equal{
+    grid-column: span 2;
+    background: #00c853;
+    color:white;
+}
+
+.equal:hover{
+    background:#69f0ae;
+}
+
+/* Clear */
+.clear{
+    background:#ff1744;
+    color:white;
+}
+
+.clear:hover{
+    background:#ff616f;
+}
+
+/* Click animation */
+button:active{
+    transform: scale(0.95);
+}
+
+/* Responsive */
+@media(max-width:400px){
+    .calculator{
+        width:95%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+    <div class="display" id="display">0</div>
+
+    <div class="buttons">
+        <button class="clear" onclick="clearDisplay()">AC</button>
+        <button class="operator" onclick="append('/')">÷</button>
+        <button class="operator" onclick="append('*')">×</button>
+        <button class="operator" onclick="append('-')">−</button>
+
+        <button class="number" onclick="append('7')">7</button>
+        <button class="number" onclick="append('8')">8</button>
+        <button class="number" onclick="append('9')">9</button>
+        <button class="operator" onclick="append('+')">+</button>
+
+        <button class="number" onclick="append('4')">4</button>
+        <button class="number" onclick="append('5')">5</button>
+        <button class="number" onclick="append('6')">6</button>
+        <button class="number" onclick="append('1')">1</button>
+
+        <button class="number" onclick="append('2')">2</button>
+        <button class="number" onclick="append('3')">3</button>
+        <button class="number" onclick="append('0')">0</button>
+        <button class="number" onclick="append('.')">.</button>
+
+        <button class="equal" onclick="calculate()">=</button>
+    </div>
+</div>
+
+<script>
+let display = document.getElementById("display");
+
+function append(value){
+    if(display.innerText === "0"){
+        display.innerText = value;
+    } else {
+        display.innerText += value;
+    }
+}
+
+function clearDisplay(){
+    display.innerText = "0";
+}
+
+function calculate(){
+    try{
+        display.innerText = eval(display.innerText);
+    }catch{
+        display.innerText = "Error";
+    }
+}
+
+/* Keyboard Support */
+document.addEventListener("keydown", function(e){
+    const key = e.key;
+
+    if(!isNaN(key) || "+-*/.".includes(key)){
+        append(key);
+    }
+    else if(key === "Enter"){
+        calculate();
+    }
+    else if(key === "Backspace"){
+        display.innerText = display.innerText.slice(0,-1) || "0";
+    }
+    else if(key === "Escape"){
+        clearDisplay();
+    }
+});
+</script>
+
+</body>
+</html>
